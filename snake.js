@@ -72,6 +72,24 @@ SnakeGame.prototype.reset = function() {
         x: tail.x,
         y: tail.y
       });
+      console.log(this.body);
+    },
+    isDead: function() {
+      if(this.body[0].x < 0 ||
+          this.body[0].x > this.ctx.canvas.clientWidth ||
+          this.body[0].y < 0 ||
+          this.body[0].y > this.ctx.canvas.clientHeight)
+        return true;
+
+      for(var i = 2; i < this.body.length; i++) {
+        var dx       = this.body[0].x - this.body[i].x,
+            dy       = this.body[0].y - this.body[i].y,
+            distance = Math.abs(Math.sqrt(dx*dx + dy*dy));
+        if(distance < this.radius * 1.5)
+          return true;
+      }
+
+      return false;
     }
   }
 }
@@ -88,10 +106,7 @@ SnakeGame.prototype.draw = function() {
   this.snake.move();
 
   // Check to see if we've moved out of bounds
-  if(this.snake.body[0].x < 0 ||
-      this.snake.body[0].x > this.width ||
-      this.snake.body[0].y < 0 ||
-      this.snake.body[0].y > this.height)
+  if(this.snake.isDead())
     this.reset();
 
   // Check for feeding
