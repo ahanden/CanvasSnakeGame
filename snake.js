@@ -178,9 +178,10 @@ SnakeGame.prototype.draw = function() {
     this.reset();
 
   // Check for feeding
-  if(this.distance(
-      [this.food_x, this.food_y],
-      [this.snake.body[0].x, this.snake.body[0].y]) < this.foodsize + this.snakesize) {
+  var dx = this.food_x - this.snake.body[0].x,
+      dy = this.food_y - this.snake.body[0].y,
+      distance = Math.abs(Math.sqrt(dx*dx + dy*dy));
+  if(distance < this.foodsize + this.snakesize) {
     this.food_x = Math.random() * (this.width * 0.8) + this.width * 0.1;
     this.food_y = Math.random() * (this.height * 0.8) + this.width * 0.1;
     this.snake.feed();
