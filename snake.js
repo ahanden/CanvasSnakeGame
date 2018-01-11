@@ -33,38 +33,44 @@ SnakeGame.prototype.reset = function() {
   this.snake = {
     body: [{
       x: this.width/4 * 3,
-      y: this.height/2,
-      d: Math.PI
+      y: this.height/2
     }],
     velocity: 4,
     rotation: 0,
+    radius: 10,
+    direction: Math.PI,
     ctx: sg.ctx,
     draw: function() {
       var snake = this;
       var ctx   = this.ctx;
-      this.body.forEach(function(element){
+      this.body.forEach(function(element, index){
         ctx.beginPath();
-        ctx.arc(element.x, element.y, 10, 0, Math.PI * 2, true);
+        ctx.arc(element.x, element.y, snake.radius, 0, Math.PI * 2, true);
         ctx.closePath();
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = 'rgba(0, '+(155-index*20)+', 0, 1)';
         ctx.fill();
       });
     },
     move: function() {
+      this.direction += this.rotation;
+      this.body[0].x += Math.cos(this.direction) * this.velocity;
+      this.body[0].y += Math.sin(this.direction) * this.velocity;
       for(var i = 1; i < this.body.length; i++) {
-        this.body[i].d = this.body[i-1].d
-        this.body[i].x += Math.cos(this.body[i].d) * this.velocity;
-        this.body[i].y += Math.sin(this.body[i].d) * this.velocity;
+        var dx       = this.body[i-1].x - this.body[i].x,
+            dy       = this.body[i-1].y - this.body[i].y,
+            angle    = Math.atan2(dy, dx),
+            distance = Math.abs(Math.sqrt(dx*dx + dy*dy)),
+            velocity = Math.max(distance - this.velocity - 1.5 * this.radius, 0);
+
+        this.body[i].x += Math.cos(angle) * velocity;
+        this.body[i].y += Math.sin(angle) * velocity;
       }
-      this.body[0].d += this.rotation;
-      this.body[0].x += Math.cos(this.body[0].d) * this.velocity;
-      this.body[0].y += Math.sin(this.body[0].d) * this.velocity;
     },
     feed: function() {
       tail = this.body[this.body.length - 1];
       this.body.push({
-        x: tail.x - Math.cos(tail.d) * (this.velocity + 18),
-        y: tail.y + Math.sin(tail.d) * (this.velocity + 18),
+        x: tail.x,
+        y: tail.y
       });
     }
   }
