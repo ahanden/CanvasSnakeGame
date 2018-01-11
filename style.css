@@ -1,9 +1,0 @@
-#snake-game {
-  width: 640px;
-  height: 480px;
-  margin: 30px auto;
-  border: 1px solid black;
-}
-#snake-game:focus {
-  border-width: 5px;
-}

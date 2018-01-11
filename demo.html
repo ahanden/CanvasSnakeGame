@@ -4,10 +4,24 @@
   <title>Snake</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="style.css" rel="stylesheet">
   <script type="text/javascript" src="snake.js"></script>
+  <script>
+  function startGame(){
+    var container = document.getElementById('snake-game');
+    new SnakeGame(container);
+    container.focus();
+  }
+  </script>
+  <style>
+#snake-game {
+  width: 640px;
+  height: 480px;
+  margin: 30px auto;
+  border: 1px solid black;
+}
+  </style>
 </head>
-<body onload="new SnakeGame(document.getElementById('snake-game'));">
+<body onload="startGame();">
   <div id="snake-game" tabindex="0"></div>
 </body>
 </html>
