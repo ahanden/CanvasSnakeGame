@@ -25,7 +25,7 @@
  *                                        (larger numbers make tighter turning
  *                                        patterns).
  */
-function SnakeGame(container, options) {
+function SnakeGame(container, options={}) {
   // Define game variables
   this.container = container;
   this.width     = this.container.offsetWidth;
